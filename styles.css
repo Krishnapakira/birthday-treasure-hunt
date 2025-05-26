@@ -1,0 +1,319 @@
+/* ───────────────────────────────────────────────
+   Google-font
+───────────────────────────────────────────────── */
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap");
+
+/* ───────────────────────────────────────────────
+   Root colours & paper background
+───────────────────────────────────────────────── */
+:root {
+  --bg-paper: url("https://i.imgur.com/FL3SmIu.jpeg");
+  --warm-brown: #6b4c3b;
+  --dark-brown: #4a3224;
+  --cream: #ebd7bf;
+  --shadow: rgba(105, 75, 56, 0.3);
+
+  --grad-btn: linear-gradient(135deg, #d2996e, #a76f45);
+  --grad-btn-hover: linear-gradient(135deg, #b77648, #8c5530);
+  --glow: #d9a06688;
+}
+
+/* ───────────────────────────────────────────────
+   Base reset
+───────────────────────────────────────────────── */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Cinzel", serif;
+}
+
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: var(--bg-paper) center / cover fixed no-repeat;
+  color: var(--warm-brown);
+  line-height: 1.6;
+  font-size: 1.1rem;
+  animation: paperFlicker 8s ease-in-out infinite;
+}
+
+@keyframes paperFlicker {
+  50% { filter: brightness(0.95); }
+}
+
+/* ───────────────────────────────────────────────
+   Start overlay & button
+───────────────────────────────────────────────── */
+#start-screen {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--bg-paper) center / cover no-repeat;
+  z-index: 1000;
+  animation: fadeIn 0.7s;
+}
+
+#start-screen.fade-out { animation: fadeOut 0.6s forwards; }
+
+@keyframes fadeIn  { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fadeOut { to   { opacity: 0; pointer-events: none; } }
+
+#start-button {
+  padding: 1rem 2.5rem;
+  font: 700 1.5rem "Cinzel", serif;
+  background: var(--grad-btn);
+  border: 0;
+  border-radius: 14px;
+  cursor: pointer;
+  box-shadow: 0 0 18px #ffd560;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+#start-button:hover {
+  transform: scale(1.06);
+  box-shadow: 0 0 28px #ffe08d;
+}
+
+/* Central flash when game starts */
+.start-sparkle {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  font-size: 4rem;
+  color: gold;
+  z-index: 1101;
+  animation: startFlash 0.9s ease forwards;
+}
+@keyframes startFlash {
+  0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.2) rotate(0);  }
+  60%  { opacity: 1; transform: translate(-50%, -50%) scale(1.4) rotate(180deg); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(0.5) rotate(360deg); }
+}
+
+/* ───────────────────────────────────────────────
+   Main quest card
+───────────────────────────────────────────────── */
+main#quest {
+  max-width: 720px;
+  margin: 2rem auto 4rem;
+  padding: 1rem 1.5rem;
+  background: var(--cream);
+  border: 2.5px dashed var(--dark-brown);
+  border-radius: 1rem;
+  box-shadow: 8px 10px 15px var(--shadow);
+}
+
+/* burnt-edge corners */
+main#quest::before,
+main#quest::after {
+  content: "";
+  position: absolute;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  pointer-events: none;
+  box-shadow:
+    inset 5px 5px 15px #7a523b,
+    inset -5px -5px 15px #7a523b;
+}
+main#quest::before { top: -15px;  left: -15px; }
+main#quest::after  { bottom: -15px; right: -15px; }
+
+/* ───────────────────────────────────────────────
+   Step fade / slide animation
+───────────────────────────────────────────────── */
+.step {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 2rem 1rem 3rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  pointer-events: none;
+}
+.step.active {
+  display: flex;
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* step imagery */
+.step img {
+  max-width: 90%;
+  max-height: 320px;
+  margin-bottom: 1.4rem;
+  border-radius: 1rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+  animation: floatPic 6s ease-in-out infinite;
+}
+@keyframes floatPic {
+  50% { transform: translateY(-12px); }
+}
+
+/* headings pulse */
+h2 {
+  font-size: 2rem;
+  color: var(--dark-brown);
+  margin-bottom: 0.7rem;
+  text-shadow: 1px 1px 2px var(--shadow);
+  animation: glowText 4s ease-in-out infinite;
+}
+@keyframes glowText {
+  50% { text-shadow: 0 0 12px #d2996e, 0 0 18px #d2996e; }
+}
+
+/* body text */
+p {
+  max-width: 520px;
+  margin: 0 auto 1rem;
+  background: rgba(237,221,201,0.85);
+  padding: 0.9rem 1.3rem;
+  border-radius: 0.8rem;
+  box-shadow: 3px 3px 10px var(--shadow);
+}
+
+/* ───────────────────────────────────────────────
+   Buttons (next, truth, dare, riddle, music)
+───────────────────────────────────────────────── */
+button,
+#music-btn {
+  cursor: pointer;
+  padding: 0.75rem 1.8rem;
+  font: 600 1.05rem "Cinzel", serif;
+  border: none;
+  border-radius: 2rem;
+  color: #fff;
+  background: var(--grad-btn);
+  box-shadow: 0 0 8px var(--glow),
+              inset 0 -3px 10px rgba(255,160,120,0.8);
+  transition: background 0.3s, transform 0.2s;
+  animation: btnPulse 5s ease-in-out infinite;
+}
+button:hover,
+#music-btn:hover {
+  background: var(--grad-btn-hover);
+  transform: scale(1.08);
+  animation-play-state: paused;
+}
+@keyframes btnPulse {
+  50% { box-shadow: 0 0 20px var(--glow),
+                    inset 0 -5px 18px rgba(255,180,130,1); }
+}
+
+/* ───────────────────────────────────────────────
+   Riddle input
+───────────────────────────────────────────────── */
+#riddle-input {
+  width: 240px;
+  margin: 0.8rem 0 0.9rem;
+  padding: 0.6rem 1rem;
+  border: 2px solid var(--warm-brown);
+  border-radius: 1.5rem;
+  background: var(--cream);
+  color: var(--dark-brown);
+  text-align: center;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+#riddle-input:focus {
+  border-color: var(--grad-btn);
+  box-shadow: 0 0 8px var(--grad-btn);
+}
+
+/* ───────────────────────────────────────────────
+   Inventory bar
+───────────────────────────────────────────────── */
+#inventory {
+  position: fixed;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.5rem 1rem;
+  background: rgba(250,245,220,0.85);
+  border: 2px dashed #a87c4f;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  font-size: 1.4rem;
+  backdrop-filter: blur(3px);
+  z-index: 999;
+}
+
+#inventory .item {
+  width: 2.5rem;
+  height: 2.5rem;
+  background: url("https://i.imgur.com/FL3SmIu.jpeg") center/contain no-repeat;
+  opacity: 0.25;
+  position: relative;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+#inventory .item.collected {
+  opacity: 1;
+  background: none;
+  transform: scale(1.25);
+}
+
+#item-1.collected::before { content: "🕯️"; }
+#item-2.collected::before { content: "🌻"; }
+#item-3.collected::before { content: "💌"; }
+#item-4.collected::before { content: "🔑"; }
+#item-5.collected::before { content: "🎁"; }
+
+/* pop-sparkle after collection */
+.item .sparkle {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  font-size: 1.3rem;
+  color: gold;
+  pointer-events: none;
+  animation: itemSpark 0.8s ease forwards;
+}
+@keyframes itemSpark {
+  30% { transform: translate(-50%, -50%) scale(1.6); opacity: 1; }
+  100%{ transform: translate(-50%, -50%) scale(0.6); opacity: 0; }
+}
+
+/* ───────────────────────────────────────────────
+   Ambient sparkle + firefly layers
+───────────────────────────────────────────────── */
+.sparkle-container,
+.fireflies,
+#sparkle-canvas {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.sparkle-container .sparkle {
+  position: absolute;
+  border-radius: 50%;
+  background: #fafafa;
+  box-shadow: 0 0 12px 6px #fcf1ce;
+  filter: drop-shadow(0 0 4px #fada5a);
+  animation: tinySpark 1.5s ease-in-out infinite;
+}
+@keyframes tinySpark {
+  50% { opacity: 0.3; transform: scale(1.3); }
+}
+
+.fireflies::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle,#fffae0 10%,transparent 70%)
+    center/2px 2px repeat;
+  animation: fly 30s linear infinite;
+  opacity: 0.4;
+}
+@keyframes fly {
+  to {
+    background-position: 1000px 1000px; /* move the radial gradient diagonally */
+  }
+}

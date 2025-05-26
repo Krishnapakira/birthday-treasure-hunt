@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Birthday Love Quest</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Fireworks canvas styling */
+    #fireworks-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 🔸 Start overlay -->
+  <div id="start-screen">
+    <button id="start-button">Let’s Treasure Hunt!</button>
+  </div>
+
+  <!-- 🔸 Ambient effects -->
+  <div class="fireflies" aria-hidden="true"></div>
+  <canvas id="sparkle-canvas"></canvas>
+
+  <!-- 🔸 Background music -->
+  <audio id="bg-music" src="assets/music.mp3" loop></audio>
+  <button id="music-btn" class="floating-btn">▶ Music</button>
+
+  <!-- 🔸 Inventory bar (empty slots) -->
+  <div id="inventory">
+    <div class="item" id="item-1" title="Birthday Candle"></div>
+    <div class="item" id="item-2" title="Sunflower"></div>
+    <div class="item" id="item-3" title="Love Letter"></div>
+    <div class="item" id="item-4" title="Key to Heart"></div>
+    <div class="item" id="item-5" title="Final Gift"></div>
+  </div>
+
+  <!-- 🔸 Main treasure-hunt steps -->
+  <main id="quest">
+
+    <!-- STEP 1 -->
+    <section id="step-1" class="step">
+      <img src="assets/step1.png" alt="Anime girl with cake" />
+      <article>
+        <h2>Happy Birthday, Love! 🎂</h2>
+        <p>
+          Happy Birthday, My Love! 🎂💖<br><br>
+         Even though miles separate us today 🌎, my heart is right there with you ❤️, celebrating every moment of your special day . Distance may keep us apart , but it can never dim the love I feel for you 💕. I hope this treasure hunt 🎁 brings you smiles 😁, sweet memories , and reminds you how much you mean to me 💗. I’m counting down the days    until we can celebrate together again 🎉.<br><br>Until then, know that you’re always in my thoughts and forever in my heart. Happy Birthday, my beautiful soul! 🌹✨
+
+        </p>
+        <button data-next class="next-btn">Next ➜</button>
+      </article>
+    </section>
+
+    <!-- STEP 2 -->
+    <section id="step-2" class="step hidden">
+      <img src="assets/step2.png" alt="First meeting on the stairs" />
+      <article>
+        <h2>Durga Puja Magic ✨</h2>
+        <p>
+          It was during Durga Puja 🎉, surrounded by laughter 😂 and festive lights , when fate quietly stepped in. I was waiting downstairs at your mama ka home, lost in my thoughts 🤔, when my eyes drifted up the staircase... And there you were — standing so beautifully 💃, like a moment frozen in time .<br>
+In that instant, the world seemed to pause, and my heart quietly whispered that something extraordinary had just begun.<br>
+That simple, unexpected glance 👀 sparked a love ❤️ I never saw coming — the very start of our beautiful journey together 🌟.
+
+        </p>
+        <button data-next class="next-btn">Next ➜</button>
+      </article>
+    </section>
+
+    <!-- STEP 3 -->
+    <section id="step-3" class="step hidden">
+      <img src="assets/step3.png" alt="Truth or Dare scene" />
+      <article>
+        <h2>Truth or Dare 🎮</h2>
+        <p>Choose wisely, my love…</p>
+        <div class="choices">
+          <button id="truth-btn">Truth</button>
+          <button id="dare-btn">Dare</button>
+        </div>
+        <p id="tod-result" class="hidden"></p>
+        <button data-next id="tod-next" class="next-btn hidden">Next ➜</button>
+      </article>
+    </section>
+
+    <!-- STEP 4 -->
+    <section id="step-4" class="step hidden">
+      <img src="assets/step4.png" alt="Riddle scene" />
+      <article>
+        <h2>The Riddle 🔍</h2>
+        <p>
+          <i>“Where did fate surprise us that day,<br>
+          Under open skies where we chose to stay?<br>
+          A secret place, not far but dear,<br>
+The spot where your visit made it clear.”</i><br><br>
+          Where 🤔 am I 📍?
+        </p>
+        <input id="riddle-input" type="text" placeholder="Your answer…" />
+        <button id="riddle-btn">Submit</button>
+        <p id="riddle-feedback"></p>
+      </article>
+    </section>
+
+    <!-- STEP 5 -->
+    <section id="step-5" class="step hidden">
+      <img src="assets/step5.png" alt="Metro station goodbye" />
+      <article>
+        <h2>Until We Meet Again 🚇</h2>
+        <p>
+          That last moment at the 🚂 metro—one more ❤️ hug before Bangalore called me back—still warms my soul. <br>
+          This hour we shared, though short ⏰, was infinite in my heart ❤️.<br>
+           It’s a reminder that no matter the distance 🌏 or time ⏰,<br>
+            every moment with you is precious beyond words 💕. <br><br>
+            Happy Birthday, my love — here’s to many more magical moments together 🎉!
+        </p>
+        <video src="assets/final_video.mp4" controls
+               poster="assets/video_cover.jpg"></video>
+        <p class="closing">I love you beyond words. Happy Birthday! ❤️</p>
+      </article>
+    </section>
+
+  </main>
+
+  <!-- Fireworks canvas -->
+  <canvas id="fireworks-canvas"></canvas>
+
+  <!-- 🔸 Logic -->
+  <script src="script.js"></script>
+
+  <!-- Fireworks animation script -->
+  <script>
+    const canvas = document.getElementById('fireworks-canvas');
+    const ctx = canvas.getContext('2d');
+    let width, height;
+
+    function resize() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    canvas.style.position = 'fixed';
+    canvas.style.top = '0';
+    canvas.style.left = '0';
+    canvas.style.pointerEvents = 'none';
+    canvas.style.zIndex = '1000';
+
+    let fireworks = [];
+
+    function random(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+
+    function createFirework() {
+      const x = random(100, width - 100);
+      const y = random(50, height / 2);
+      const colors = ['#ff3f81', '#ffd700', '#00ffe1', '#ffb347', '#ffffff'];
+      const particles = [];
+
+      for (let i = 0; i < 60; i++) {
+        const angle = (Math.PI * 2 * i) / 60;
+        const speed = random(2, 5);
+        particles.push({
+          x, y,
+          dx: Math.cos(angle) * speed,
+          dy: Math.sin(angle) * speed,
+          alpha: 1,
+          color: colors[Math.floor(Math.random() * colors.length)],
+        });
+      }
+
+      fireworks.push(...particles);
+    }
+
+    function hexToRgb(hex) {
+      const bigint = parseInt(hex.replace("#", ""), 16);
+      return [
+        (bigint >> 16) & 255,
+        (bigint >> 8) & 255,
+        bigint & 255
+      ].join(",");
+    }
+
+    function animateFireworks() {
+      ctx.fillStyle = 'rgba(0,0,0,0.1)';
+      ctx.fillRect(0, 0, width, height);
+
+      for (let i = fireworks.length - 1; i >= 0; i--) {
+        const p = fireworks[i];
+        p.x += p.dx;
+        p.y += p.dy;
+        p.alpha -= 0.015;
+
+        if (p.alpha <= 0) fireworks.splice(i, 1);
+
+        ctx.fillStyle = `rgba(${hexToRgb(p.color)},${p.alpha})`;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      requestAnimationFrame(animateFireworks);
+    }
+
+    let fireworkInterval;
+
+    function startFireworks() {
+      if (!fireworkInterval) {
+        fireworkInterval = setInterval(createFirework, 600);
+        animateFireworks();
+      }
+    }
+
+    function stopFireworks() {
+      clearInterval(fireworkInterval);
+      fireworkInterval = null;
+      fireworks = [];
+      ctx.clearRect(0, 0, width, height);
+    }
+
+    // Observe changes in #quest to detect when Step 5 is visible
+    const quest = document.getElementById('quest');
+    const observer = new MutationObserver(() => {
+      const step5 = document.getElementById('step-5');
+      if (step5 && !step5.classList.contains('hidden')) {
+        startFireworks();
+      } else {
+        stopFireworks();
+      }
+    });
+
+    observer.observe(quest, { attributes: true, childList: true, subtree: true });
+  </script>
+</body>
+</html>
