@@ -317,3 +317,52 @@ button:hover,
     background-position: 1000px 1000px; /* move the radial gradient diagonally */
   }
 }
+/* ───────────── Responsive for phones ───────────── */
+@media (max-width: 768px) {
+  body {
+    font-size: 1rem;
+    padding: 0 1rem;
+  }
+
+  main#quest {
+    margin: 1rem;
+    padding: 1rem;
+  }
+
+  .step img {
+    max-width: 100%;
+    max-height: 240px;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  p {
+    font-size: 0.95rem;
+    padding: 0.8rem 1rem;
+  }
+
+  button,
+  #music-btn {
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+  }
+
+  #riddle-input {
+    width: 100%;
+    max-width: 90%;
+  }
+
+  #inventory {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    font-size: 1.1rem;
+    top: 0.5rem;
+  }
+
+  .item {
+    width: 2rem;
+    height: 2rem;
+  }
+}
